@@ -381,14 +381,17 @@ export default {
     // },
     create() {
       this.$axios({
-        url: '/api/item',
+        // url: '/api/item',
+        url: '/api/itemByTeacherID',
         method: 'post',
         data: {
           changeNumber: this.changeNumber,
           fillNumber: this.fillNumber,
           judgeNumber: this.judgeNumber,
           paperId: this.paperId,
+          teacherId:this.$cookies.get("cid"),
           subject: '计算机网络' //题目数量太少，指定为计算机网络出题
+          
         }
       }).then(res => {
         console.log(res)
