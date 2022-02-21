@@ -1,19 +1,11 @@
-// 所有学生
+
 <template>
+
   <div class="all">
-    <el-table :data="pagination.records" border>
-      <el-table-column fixed="left" prop="studentName" label="姓名" width="180"></el-table-column>
-      <el-table-column prop="institute" label="学院" width="200"></el-table-column>
-      <el-table-column prop="major" label="专业" width="200"></el-table-column>
-      <el-table-column prop="grade" label="年级" width="200"></el-table-column>
-      <el-table-column prop="clazz" label="班级" width="100"></el-table-column>
-      <el-table-column prop="sex" label="性别" width="120"></el-table-column>
-      <el-table-column prop="tel" label="联系方式" width="120"></el-table-column>
-      <el-table-column fixed="right" label="查看成绩" width="150">
-        <template slot-scope="scope">
-          <el-button @click="checkGrade(scope.row.studentId)" type="primary" size="small">查看成绩</el-button>
-        </template>
-      </el-table-column>
+    <el-table  :data="pagination.records" border >
+      <el-table-column fixed="left" prop="studentName" label="姓名" width="400"></el-table-column>
+      <el-table-column prop="subjectName" label="科目" width="380"></el-table-column>
+      <el-table-column prop="score" label="成绩" width="380"></el-table-column>
     </el-table>
     <el-pagination
       @size-change="handleSizeChange"
@@ -25,7 +17,9 @@
       :total="pagination.total"
       class="page"
     ></el-pagination>
+    <el-button @click="getBack()" type="primary" size="small">返回</el-button>
   </div>
+
 </template>
 
 <script>
@@ -41,15 +35,26 @@ export default {
     };
   },
   created() {
-    this.getAnswerInfo();
+    this.getStudentScoreByTeacher();
   },
   methods: {
 
-    getAnswerInfo() {
-
+    getStudentScoreByTeacher() {
+    let studentId = this.$route.query.studentId
     //分页查询所有试卷信息
       // this.$axios(`/api/students/${this.pagination.current}/${this.pagination.size}`).then(res => {
-        this.$axios(`/api/students/${this.pagination.current}/${this.pagination.size}/${this.$cookies.get("cid")}`).then(res => {
+        this.$axios({
+          // `/${this.pagination.current}/${this.pagination.size}/${studentId}`
+        url: '/api/ScoreByStudentToTeacher',
+        method: 'post',
+        data: {
+          current:this.pagination.current,
+          size:this.pagination.size,
+          studentId:studentId,
+          teacherID:this.$cookies.get("cid")
+        }}
+        )  
+          .then(res => {
         this.pagination = res.data.data;
       }).catch(error => {});
     },
@@ -57,17 +62,18 @@ export default {
     //改变当前记录条数
     handleSizeChange(val) {
       this.pagination.size = val;
-      this.getAnswerInfo();
+      this.getStudentScoreByTeacher();
     },
 
     //改变当前页码，重新发送请求
     handleCurrentChange(val) {
       this.pagination.current = val;
-      this.getAnswerInfo();
+      this.getStudentScoreByTeacher();
     },
 
-    checkGrade(studentId) {
-      this.$router.push({ path: "/grade", query: { studentId: studentId } });
+    //返回上一页面
+    getBack() {
+    this.$router.push({ path: "/allStudentsGrade" });
     }
   }
 };
