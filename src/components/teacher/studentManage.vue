@@ -84,8 +84,8 @@ export default {
   },
   methods: {
     getStudentInfo() {
-      //分页查询所有试卷信息
-      this.$axios(`/api/students/${this.pagination.current}/${this.pagination.size}`).then(res => {
+      //分页查询所有学生信息
+      this.$axios(`/api/students/${this.pagination.current}/${this.pagination.size}/${this.$cookies.get("cid")}`).then(res => {
         this.pagination = res.data.data;
       }).catch(error => {});
     },

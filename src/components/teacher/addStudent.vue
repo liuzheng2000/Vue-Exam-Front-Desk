@@ -30,7 +30,7 @@
         <el-input v-model="form.email"></el-input>
       </el-form-item>
       <el-form-item label="密码">
-        <el-input v-model="form.pwd"></el-input>
+        <el-input v-model.trim="form.pwd"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmit()">立即创建</el-button>
@@ -41,6 +41,7 @@
 </template>
 
 <script>
+import {encrypt} from '../../utils/jsencrypt'
 export default {
   data() {
     return {
@@ -55,7 +56,8 @@ export default {
         pwd: null,
         cardId: null,
         sex: null,
-        role: 2
+        role: 2,
+        teacherId: this.$cookies.get("cid")
       }
     };
   },
@@ -65,8 +67,20 @@ export default {
         url: '/api/student',
         method: 'post',
         data: {
-          ...this.form
-        }
+          studentName: this.form.studentName,
+          grade: this.form.grade,
+          major: this.form.major,
+          clazz: this.form.clazz,
+          institute: this.form.institute,
+          tel: this.form.tel,
+          email: this.form.email,
+          pwd: encrypt(this.form.pwd),
+          cardId: this.form.cardId,
+          sex: this.form.sex,
+          role: this.form.role,
+          teacherId: this.form.teacherId,
+          // ...this.form
+        },
       }).then(res => {
         if(res.data.code == 200) {
           this.$message({
@@ -74,7 +88,14 @@ export default {
             type: 'success'
           })
           this.$router.push({path: '/studentManage'})
+        }else{
+            this.$message({
+            message: '数据添加失败',
+            type: 'error'
+          })
         }
+      }).catch(() => {
+
       })
     },
     cancel() { //取消按钮
