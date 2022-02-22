@@ -32,7 +32,8 @@ export default new Router({
                 {
                     path: '/scorePart',
                     component: () =>
-                        import ('@/components/charts/scorePart')
+                        import ('@/components/charts/gradeBySubject')
+                        // import ('@/components/charts/scorePart')
                 },
                 {
                     path: '/allStudentsGrade', //所有学生成绩统计
