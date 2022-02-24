@@ -112,11 +112,27 @@ export default {
     //初始化页面数据
     init() {
       let examCode = this.$route.query.examCode //获取路由传递过来的试卷编号
-      this.$axios(`/api/exam/${examCode}`).then(res => {  //通过examCode请求试卷详细信息
+      this.$axios(
+        {
+        headers: { Authorization: this.$cookies.get("token") },  //设置的请求头
+        url:  `/api/Examexam/exam/${examCode}`,
+        method: "Get",
+        }
+        // `/api/Examexam/exam/${examCode}`
+      
+      
+      ).then(res => {  //通过examCode请求试卷详细信息
         res.data.data.examDate = res.data.data.examDate.substr(0,10)
         this.examData = { ...res.data.data}
         let paperId = this.examData.paperId
-        this.$axios(`/api/paper/${paperId}`).then(res => {  //通过paperId获取试题题目信息
+        this.$axios(
+        {
+        headers: { Authorization: this.$cookies.get("token") },  //设置的请求头
+        url:  `/api/ExamPaper/paper/${paperId}`,
+        method: "Get",
+        }
+          // `/api/ExamPaper/paper/${paperId}`
+        ).then(res => {  //通过paperId获取试题题目信息
           this.topic = {...res.data}
           let keys = Object.keys(this.topic) //对象转数组
           keys.forEach(e => {
