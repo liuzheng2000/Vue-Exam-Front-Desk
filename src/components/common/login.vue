@@ -114,7 +114,8 @@ export default {
     login() {
       console.log("登录操作执行-------");
       this.$axios({
-        url: `/api/login`,
+        // url: `/api/login`,
+        url: `/api/auth/loginExam`,
         method: "post",
         data: {
               username: this.formLabelAlign.username, //用户名
@@ -129,17 +130,20 @@ export default {
               this.$cookies.set("cname", resData.adminName);
               this.$cookies.set("cid", resData.adminId);
               this.$cookies.set("role", 0);
+              this.$cookies.set("token",resData.token);
               this.$router.push({ path: "/index" }); //跳转到首页
               break;
             case "1": //教师
               this.$cookies.set("cname", resData.teacherName);
               this.$cookies.set("cid", resData.teacherId);
               this.$cookies.set("role", 1);
+              this.$cookies.set("token",resData.token);
               this.$router.push({ path: "/index" }); //跳转到教师用户
               break;
             case "2": //学生
               this.$cookies.set("cname", resData.studentName);
               this.$cookies.set("cid", resData.studentId);
+              this.$cookies.set("token",resData.token);
               this.$router.push({ path: "/student" });
               break;
           }

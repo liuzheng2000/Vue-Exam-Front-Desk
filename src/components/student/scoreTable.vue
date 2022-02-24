@@ -90,7 +90,14 @@ export default {
   methods: {
     getScore() {
       let studentId = this.$cookies.get("cid")
-      this.$axios(`/api/score/${this.pagination.current}/${this.pagination.size}/${studentId}`).then(res => {
+      this.$axios(
+        {
+        headers: { Authorization: this.$cookies.get("token") },  //设置的请求头
+        url: `/api/ExamScore/score/${this.pagination.current}/${this.pagination.size}/${studentId}`,
+        method: "Get",
+        }
+        // `/api/score/${this.pagination.current}/${this.pagination.size}/${studentId}`
+        ).then(res => {
         if(res.data.code == 200) {
           this.loading = false //数据加载完成去掉遮罩
           this.score = res.data.data.records
@@ -107,7 +114,6 @@ export default {
             return item
           }, []);
           this.filter = newArr
-
 
 
           let sujectmapVal = this.score.map((element,index) => { //通过map得到 filter:[{text,value}]形式的数组对象

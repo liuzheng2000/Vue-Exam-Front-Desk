@@ -51,6 +51,7 @@ export default {
       this.$router.push({path:"/"}) //跳转到登录页面
       this.$cookies.remove("cname") //清除cookie
       this.$cookies.remove("cid")
+      this.$cookies.remove("token")
     },
     manage() {  //跳转到修改密码页面
       this.$router.push({path: '/manager'})
@@ -60,6 +61,7 @@ export default {
       let studentId = this.$cookies.get("cid")
       console.log(`studentId${studentId}`)
       console.log(`studentName ${studentName}`)
+      console.log(this.$cookies.get("token"))
       this.user.userName = studentName
       this.user.studentId = studentId
     },

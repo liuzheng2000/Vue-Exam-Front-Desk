@@ -322,13 +322,28 @@ export default {
       let date = new Date();
       this.startTime = this.getTime(date);
       let examCode = this.$route.query.examCode; //获取路由传递过来的试卷编号
-      this.$axios(`/api/exam/${examCode}`).then((res) => {
+      this.$axios(
+             {
+        headers: { Authorization: this.$cookies.get("token") },  //设置的请求头
+        url:  `/api/Examexam/exam/${examCode}`,
+        method: "Get",
+        }
+        // `/api/exam/${examCode}`
+        
+        ).then((res) => {
         //通过examCode请求试卷详细信息
         this.examData = { ...res.data.data }; //获取考试详情
         this.index = 0;
         this.time = this.examData.totalScore; //获取分钟数
         let paperId = this.examData.paperId;
-        this.$axios(`/api/paper/${paperId}`).then((res) => {
+        this.$axios(
+                  {
+        headers: { Authorization: this.$cookies.get("token") },  //设置的请求头
+        url:  `/api/ExamPaper/paper/${paperId}`,
+        method: "Get",
+        }
+          // `/api/paper/${paperId}`
+          ).then((res) => {
           //通过paperId获取试题题目信息
           this.topic = { ...res.data };
           let reduceAnswer = this.topic[1][this.index];
@@ -629,7 +644,8 @@ export default {
 
             //发送判断题目与答案
             this.$axios({
-              url: `/api/SourceAnswer`,
+              headers: { Authorization: this.$cookies.get("token") },  //设置的请求头
+              url: `/api/ExamSourceAnswer/SourceAnswer`,
               method: "post",
               data: {
                 chooseAnswer: topic1Answer, //选择题答案

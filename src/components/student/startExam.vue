@@ -92,7 +92,8 @@ export default {
     getExamInfo() {
       console.log("查詢操作-------");
       this.$axios({
-        url: `/api/findTimeLessThanTodayByStudentID`,
+        headers: { Authorization: this.$cookies.get("token") },  //设置的请求头
+        url: `/api/Examexam/findTimeLessThanTodayByStudentID`,
         method: "post",
         data: {
           page: this.pagination.current, //當前頁
@@ -144,7 +145,8 @@ export default {
     search() {
       console.log("查詢操作-------");
       this.$axios({
-        url: `/api/findTimeLessThanTodayByStudentID`,
+        headers: { Authorization: this.$cookies.get("token") },  //设置的请求头
+        url: `/api/Examexam/findTimeLessThanTodayByStudentID`,
         method: "post",
         data: {
           page: this.pagination.current, //當前頁

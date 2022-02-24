@@ -79,7 +79,14 @@ export default {
   // },
   methods: {
     getMsg() {
-      this.$axios(`/api/messages/${this.pagination.current}/${this.pagination.size}`).then(res => {
+      this.$axios(
+         {
+        headers: { Authorization: this.$cookies.get("token") },  //设置的请求头
+        url:`/api/ExamMessages/messages/${this.pagination.current}/${this.pagination.size}`,
+        method: "Get",
+        }
+        // `/api/messages/${this.pagination.current}/${this.pagination.size}`
+        ).then(res => {
         let status = res.data.code
         if(status == 200) {
           this.msg = res.data.data.records
@@ -116,7 +123,8 @@ export default {
         })
        } else {
       this.$axios({
-        url: "/api/message",
+        headers: { Authorization: this.$cookies.get("token") },  //设置的请求头
+        url: "/api/ExamMessages/message",
         method: "post",
         data: {
           title: this.title,
@@ -148,7 +156,8 @@ export default {
         let date = new Date()
         console.log(messageId)
         this.$axios({
-          url: '/api/replay',
+          headers: { Authorization: this.$cookies.get("token") },  //设置的请求头
+          url: '/api/ExamMessages/replay',
           method: 'post',
           data: {
             replay: value,
