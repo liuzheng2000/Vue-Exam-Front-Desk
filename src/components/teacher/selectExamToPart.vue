@@ -49,7 +49,15 @@ export default {
   methods: {
     getExamInfo() { //分页查询所有试卷信息
       // this.$axios(`/api/exams/${this.pagination.current}/${this.pagination.size}`).then(res => {
-        this.$axios(`/api/exams/${this.pagination.current}/${this.pagination.size}/${this.$cookies.get("cid")}`).then(res => {
+        this.$axios(
+                  {
+        headers: { Authorization: this.$cookies.get("token") },  //设置的请求头
+        url:  `/api/Examexam/exams/${this.pagination.current}/${this.pagination.size}/${this.$cookies.get("cid")}`,
+        method: "Get",
+        }
+          // `/api/exams/${this.pagination.current}/${this.pagination.size}/${this.$cookies.get("cid")}`
+          
+          ).then(res => {
         this.pagination = res.data.data
       }).catch(error => {
       })

@@ -382,7 +382,8 @@ export default {
     create() {
       this.$axios({
         // url: '/api/item',
-        url: '/api/itemByTeacherID',
+        headers: { Authorization: this.$cookies.get("token") },  //设置的请求头
+        url: '/api/CreateExam/itemByTeacherID',
         method: 'post',
         data: {
           changeNumber: this.changeNumber,
@@ -391,7 +392,6 @@ export default {
           paperId: this.paperId,
           teacherId:this.$cookies.get("cid"),
           subject: '计算机网络' //题目数量太少，指定为计算机网络出题
-          
         }
       }).then(res => {
         console.log(res)
@@ -424,7 +424,8 @@ export default {
       this.postChange.subject = this.subject
       this.$axios({ //提交数据到选择题题库表
         // url: '/api/MultiQuestion',
-        url: '/api/MultiQuestionByTeacherID',
+        headers: { Authorization: this.$cookies.get("token") },  //设置的请求头
+        url: '/api/uploadQuestion/MultiQuestionByTeacherID',
         method: 'post',
         data: {
           ...this.postChange          
@@ -439,12 +440,21 @@ export default {
           this.postChange = {}
         }
       }).then(() => {
-        this.$axios(`/api/multiQuestionId`).then(res => { //获取当前题目的questionId
+        this.$axios(
+        {
+        headers: { Authorization: this.$cookies.get("token") },  //设置的请求头
+        url:  `/api/uploadQuestion/multiQuestionId`,
+        method: "Get",
+        }
+          // `/api/multiQuestionId`
+          
+          ).then(res => { //获取当前题目的questionId
           let questionId = res.data.data.questionId
           this.postPaper.questionId = questionId
           this.postPaper.questionType = 1
           this.$axios({
-            url: '/api/paperManage',
+            headers: { Authorization: this.$cookies.get("token") },  //设置的请求头
+            url: '/api/ExamPaper/paperManage',
             method: 'Post',
             data: {
               ...this.postPaper
@@ -457,7 +467,8 @@ export default {
       this.postFill.subject = this.subject
       this.$axios({
         //  url: '/api/fillQuestion',
-        url: '/api/fillQuestionByTeacherID',
+        headers: { Authorization: this.$cookies.get("token") },  //设置的请求头
+        url: '/api/uploadQuestion/fillQuestionByTeacherID',
         method: 'post',
         data: {
           ...this.postFill
@@ -472,12 +483,20 @@ export default {
           this.postFill = {}
         }
       }).then(() => {
-        this.$axios(`/api/fillQuestionId`).then(res => { //获取当前题目的questionId
+        this.$axios(
+                  {
+        headers: { Authorization: this.$cookies.get("token") },  //设置的请求头
+        url: `/api/uploadQuestion/fillQuestionId`,
+        method: "Get",
+        }
+          // `/api/fillQuestionId`
+          ).then(res => { //获取当前题目的questionId
           let questionId = res.data.data.questionId
           this.postPaper.questionId = questionId
           this.postPaper.questionType = 2
           this.$axios({
-            url: '/api/paperManage',
+            headers: { Authorization: this.$cookies.get("token") },  //设置的请求头
+            url: '/api/ExamPaper/paperManage',
             method: 'Post',
             data: {
               ...this.postPaper
@@ -489,7 +508,8 @@ export default {
     judgeSubmit() { //判断题提交
       this.postJudge.subject = this.subject
       this.$axios({
-        url: '/api/judgeQuestionByTeacherID',
+        headers: { Authorization: this.$cookies.get("token") },  //设置的请求头
+        url: '/api/uploadQuestion/judgeQuestionByTeacherID',
         // url: '/api/judgeQuestion',
         method: 'post',
         data: {
@@ -505,12 +525,21 @@ export default {
           this.postJudge = {}
         }
       }).then(() => {
-        this.$axios(`/api/judgeQuestionId`).then(res => { //获取当前题目的questionId
+        this.$axios(
+
+                            {
+        headers: { Authorization: this.$cookies.get("token") },  //设置的请求头
+        url: `/api/uploadQuestion/judgeQuestionId`,
+        method: "Get",
+        }
+          // `/api/judgeQuestionId`
+          ).then(res => { //获取当前题目的questionId
           let questionId = res.data.data.questionId
           this.postPaper.questionId = questionId
           this.postPaper.questionType = 3
           this.$axios({
-            url: '/api/paperManage',
+            headers: { Authorization: this.$cookies.get("token") },  //设置的请求头
+            url: '/api/ExamPaper/paperManage',
             method: 'Post',
             data: {
               ...this.postPaper

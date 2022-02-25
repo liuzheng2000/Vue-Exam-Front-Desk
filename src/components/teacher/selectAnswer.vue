@@ -42,7 +42,12 @@ export default {
       //分页查询所有题目信息
       this.$axios(
         // `/api/answers/${this.pagination.current}/${this.pagination.size}`
-        `/api/answersByTeacherID/${this.pagination.current}/${this.pagination.size}/${this.$cookies.get("cid")}`
+                     {
+        headers: { Authorization: this.$cookies.get("token") },  //设置的请求头
+        url: `/api/ExamAnswerQuery/answersByTeacherID/${this.pagination.current}/${this.pagination.size}/${this.$cookies.get("cid")}`,
+        method: "Get",
+        }
+        // `/api/answersByTeacherID/${this.pagination.current}/${this.pagination.size}/${this.$cookies.get("cid")}`
       )
         .then(res => {
           this.pagination = res.data.data;

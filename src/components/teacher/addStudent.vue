@@ -64,7 +64,8 @@ export default {
   methods: {
     onSubmit() { //数据提交
       this.$axios({
-        url: '/api/student',
+        headers: { Authorization: this.$cookies.get("token") },  //设置的请求头
+        url: '/api/stu/student',
         method: 'post',
         data: {
           studentName: this.form.studentName,

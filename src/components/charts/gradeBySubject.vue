@@ -45,7 +45,9 @@ export default {
       // this.$axios(`/api/students/${this.pagination.current}/${this.pagination.size}`).then(res => {
         this.$axios({
           // `/${this.pagination.current}/${this.pagination.size}/${studentId}`
-        url: '/api/ScoreBySubjectToTeacher',
+        headers: { Authorization: this.$cookies.get("token") },  //设置的请求头
+        // url: '/api/ScoreBySubjectToTeacher',
+        url: '/api/ExamScore/ScoreBySubjectToTeacher',
         method: 'post',
         data: {
           current:this.pagination.current,

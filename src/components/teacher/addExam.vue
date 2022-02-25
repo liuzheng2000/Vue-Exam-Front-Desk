@@ -76,10 +76,19 @@ export default {
     onSubmit() {
       let examDate = this.formatTime(this.form.examDate)
       this.form.examDate = examDate.substr(0,10)
-      this.$axios(`/api/examManagePaperId`).then(res => {
+      this.$axios(
+          {
+        headers: { Authorization: this.$cookies.get("token") },  //设置的请求头
+        url: `/api/Examexam/examManagePaperId`,
+        method: "Get",
+        }
+        // `/api/examManagePaperId`
+        
+        ).then(res => {
         this.form.paperId = res.data.data.paperId + 1 //实现paperId自增1
         this.$axios({
-          url: '/api/exam',
+          headers: { Authorization: this.$cookies.get("token") },  //设置的请求头
+          url: '/api/Examexam/exam',
           method: 'post',
           data: {
             ...this.form

@@ -97,7 +97,17 @@ export default {
   methods: {
     edit(examCode) { //编辑试卷
       this.dialogVisible = true
-      this.$axios(`/api/exam/${examCode}`).then(res => { //根据试卷id请求后台
+      this.$axios(
+        
+        {
+        headers: { Authorization: this.$cookies.get("token") },  //设置的请求头
+        url:`/api/Examexam/exam/${examCode}`,
+        method: "Get",
+        }
+
+        // `/api/exam/${examCode}`
+        
+        ).then(res => { //根据试卷id请求后台
         if(res.data.code == 200) {
           this.form = res.data.data
         }
@@ -112,8 +122,9 @@ export default {
     submit() { //提交修改后的试卷信息
       this.dialogVisible = false
       this.$axios({
-        url: '/api/exam',
-        method: 'put',
+        headers: { Authorization: this.$cookies.get("token") },  //设置的请求头
+        url: '/api/Examexam/PutExam',
+        method: 'Post',
         data: {
           ...this.form
         }
@@ -134,8 +145,9 @@ export default {
         type: 'danger'
       }).then(()=> { //确认删除
         this.$axios({
-          url: `/api/exam/${examCode}`,
-          method: 'delete',
+          headers: { Authorization: this.$cookies.get("token") },  //设置的请求头
+          url: `/api/Examexam/DeExam/${examCode}`,
+          method: 'post',
         }).then(res => {
           this.getExamInfo()
         })
@@ -149,7 +161,14 @@ export default {
 
 
     getExamInfo() { //分页查询所有试卷信息
-      this.$axios(`/api/exams/${this.pagination.current}/${this.pagination.size}/${this.$cookies.get("cid")}`).then(res => {
+      this.$axios(
+             {
+        headers: { Authorization: this.$cookies.get("token") },  //设置的请求头
+        url:  `/api/Examexam/exams/${this.pagination.current}/${this.pagination.size}/${this.$cookies.get("cid")}`,
+        method: "Get",
+        }
+        // `/api/exams/${this.pagination.current}/${this.pagination.size}/${this.$cookies.get("cid")}`
+        ).then(res => {
         this.pagination = res.data.data
       }).catch(error => {
       })

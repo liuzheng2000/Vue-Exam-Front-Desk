@@ -85,7 +85,15 @@ export default {
   methods: {
     getStudentInfo() {
       //分页查询所有学生信息
-      this.$axios(`/api/students/${this.pagination.current}/${this.pagination.size}/${this.$cookies.get("cid")}`).then(res => {
+      this.$axios(
+        {
+        headers: { Authorization: this.$cookies.get("token") },  //设置的请求头
+        url: `/api/stu/students/${this.pagination.current}/${this.pagination.size}/${this.$cookies.get("cid")}`,
+        method: "Get",
+        }
+        // `/api/students/${this.pagination.current}/${this.pagination.size}/${this.$cookies.get("cid")}`
+        
+        ).then(res => {
         this.pagination = res.data.data;
       }).catch(error => {});
     },
@@ -101,7 +109,15 @@ export default {
     },
     checkGrade(studentId) { //修改学生信息
       this.dialogVisible = true
-      this.$axios(`/api/student/${studentId}`).then(res => {
+      this.$axios(
+            {
+        headers: { Authorization: this.$cookies.get("token") },  //设置的请求头
+        url: `/api/stu/student/${studentId}`,
+        method: "Get",
+        }
+        // `/api/student/${studentId}`
+        
+        ).then(res => {
         this.form = res.data.data
       })
     },
@@ -112,8 +128,9 @@ export default {
         type: 'danger'
       }).then(()=> { //确认删除
         this.$axios({
-          url: `/api/student/${studentId}`,
-          method: 'delete',
+          headers: { Authorization: this.$cookies.get("token") },  //设置的请求头
+          url: `/api/stu/DeleteStudent/${studentId}`,
+          method: 'post',
         }).then(res => {
           this.getStudentInfo()
         })
@@ -124,8 +141,9 @@ export default {
     submit() { //提交更改
       this.dialogVisible = false
       this.$axios({
-        url: '/api/student',
-        method: 'put',
+        headers: { Authorization: this.$cookies.get("token") },  //设置的请求头
+        url: '/api/stu/PutStudent',
+        method: 'post',
         data: {
           ...this.form
         }

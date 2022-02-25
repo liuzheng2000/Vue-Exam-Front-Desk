@@ -49,7 +49,14 @@ export default {
 
     //分页查询所有试卷信息
       // this.$axios(`/api/students/${this.pagination.current}/${this.pagination.size}`).then(res => {
-        this.$axios(`/api/students/${this.pagination.current}/${this.pagination.size}/${this.$cookies.get("cid")}`).then(res => {
+        this.$axios(
+        {
+        headers: { Authorization: this.$cookies.get("token") },  //设置的请求头
+        url: `/api/stu/students/${this.pagination.current}/${this.pagination.size}/${this.$cookies.get("cid")}`,
+        method: "Get",
+        }
+          // `/api/stu/students/${this.pagination.current}/${this.pagination.size}/${this.$cookies.get("cid")}`
+        ).then(res => {
         this.pagination = res.data.data;
       }).catch(error => {});
     },
