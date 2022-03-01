@@ -68,10 +68,8 @@
       </el-col>
     </el-row>
     <section class="remind">
-      <span>管理员级别选择0</span>
       <span>教师级别选择1</span>
       <span>学生级别选择2</span>
-      <span>管理员账号：9527</span>
       <span>教师账号：20081001</span>
       <span>密码都是：123456</span>
     </section>
@@ -89,10 +87,12 @@ export default {
     return {
       role: 2,
       labelPosition: "left",
-      options: [{
-          value: '0',
-          label: '管理員'
-        }, {
+      options: [
+        // {
+        //   value: '0',
+        //   label: '管理員'
+        // }, 
+        {
           value: '1',
           label: '教師'
         }, {
@@ -126,13 +126,13 @@ export default {
         let resData = res.data.data;
         if (resData != null) {
           switch (resData.role) {
-            case "0": //管理员
-              this.$cookies.set("cname", resData.adminName);
-              this.$cookies.set("cid", resData.adminId);
-              this.$cookies.set("role", 0);
-              this.$cookies.set("token",resData.token);
-              this.$router.push({ path: "/index" }); //跳转到首页
-              break;
+            // case "0": //管理员
+            //   this.$cookies.set("cname", resData.adminName);
+            //   this.$cookies.set("cid", resData.adminId);
+            //   this.$cookies.set("role", 0);
+            //   this.$cookies.set("token",resData.token);
+            //   this.$router.push({ path: "/index" }); //跳转到首页
+            //   break;
             case "1": //教师
               this.$cookies.set("cname", resData.teacherName);
               this.$cookies.set("cid", resData.teacherId);
