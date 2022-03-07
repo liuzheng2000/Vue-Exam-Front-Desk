@@ -1,7 +1,7 @@
 //查询所有题库
 <template>
   <div class="exam">
-    <el-table :data="pagination.records" border :row-class-name="tableRowClassName">
+    <el-table  id="answerInfo" :data="pagination.records" border :row-class-name="tableRowClassName">
       <el-table-column fixed="left" prop="subject" label="试卷名称" width="180"></el-table-column>
       <el-table-column prop="question" label="题目信息" width="490"></el-table-column>
       <el-table-column prop="section" label="所属章节" width="200"></el-table-column>
@@ -19,10 +19,14 @@
       :total="pagination.total"
       class="page"
     ></el-pagination>
+    <el-button @click="exportExcel()" type="primary" size="small"
+      >导出
+    </el-button>
   </div>
 </template>
 
 <script>
+import * as XLSX from "xlsx/xlsx.mjs";
 export default {
   data() {
     return {
@@ -38,6 +42,21 @@ export default {
     this.getAnswerInfo();
   },
   methods: {
+    exportExcel() {
+      // Acquire Data (reference to the HTML table)
+      // var table_elt = document.getElementById("examInfo");
+      // Extract Data (create a workbook object from the table)
+      // var workbook = XLSX.utils.table_to_book(table_elt);
+      var workbook = XLSX.utils.book_new();
+      // Process Data (add a new row)
+      var ws = XLSX.utils.table_to_sheet(document.getElementById("answerInfo"));
+      // XLSX.utils.sheet_add_aoa(ws, [["Created " + new Date().toISOString()]], {
+      //   origin: -1,
+      // });
+      XLSX.utils.book_append_sheet(workbook, ws, "Sheet1");
+      // Package and Release Data (`writeFile` tries to write and save an XLSB file)
+      XLSX.writeFile(workbook, "所有题目.xlsb");
+    },
     getAnswerInfo() {
       //分页查询所有题目信息
       this.$axios(
