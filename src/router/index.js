@@ -10,6 +10,12 @@ export default new Router({
                 import ('@/components/common/login')
         },
         {
+            path: '/StudentPhotograph',
+            name: 'StudentPhotograph', //拍照界面
+            component: () =>
+                import ('@/components/student/photograph')
+        },
+        {
             path: '/index', //教师主页
             component: () =>
                 import ('@/components/admin/index'),

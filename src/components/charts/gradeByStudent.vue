@@ -3,7 +3,7 @@
 
   <div class="all">
     <el-table  :data="pagination.records" border id="gradeScore">
-      <el-table-column fixed="left" prop="studentName" label="姓名" width="400"></el-table-column>
+      <el-table-column prop="studentName" label="姓名" width="400"></el-table-column>
       <el-table-column prop="subjectName" label="科目" width="380"></el-table-column>
       <el-table-column prop="score" label="成绩" width="380"></el-table-column>
     </el-table>

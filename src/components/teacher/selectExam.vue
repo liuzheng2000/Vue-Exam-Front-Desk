@@ -3,7 +3,7 @@
   <div class="exam">
     <el-table id="examInfo" :data="pagination.records" border>
       <el-table-column
-        fixed="left"
+       
         prop="source"
         label="试卷名称"
         width="180"
@@ -49,7 +49,7 @@
         label="考生提示"
         width="400"
       ></el-table-column>
-      <el-table-column fixed="right" label="操作" width="150">
+      <el-table-column  label="操作" width="150">
         <template slot-scope="scope">
           <el-button
             @click="edit(scope.row.examCode)"

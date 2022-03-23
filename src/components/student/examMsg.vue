@@ -119,8 +119,6 @@ export default {
         method: "Get",
         }
         // `/api/Examexam/exam/${examCode}`
-      
-      
       ).then(res => {  //通过examCode请求试卷详细信息
         res.data.data.examDate = res.data.data.examDate.substr(0,10)
         this.examData = { ...res.data.data}

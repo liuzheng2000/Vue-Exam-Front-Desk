@@ -19,7 +19,7 @@
               :model="formLabelAlign"
             >
               <el-form-item label="用戶類型">
-                <el-select  v-model="formLabelAlign.type" placeholder="请选择">
+                <el-select v-model="formLabelAlign.type" placeholder="请选择">
                   <el-option
                     v-for="item in options"
                     :key="item.value"
@@ -43,9 +43,14 @@
                 ></el-input>
               </el-form-item>
               <div class="submit">
-                <el-button type="primary" class="row-login" @click="login()"
-                  >登录</el-button
-                >
+                <el-button type="primary" class="row-login" @click="login()">登录</el-button>
+
+                <!-- <el-button
+                  type="primary"
+                  class="row-login"
+                  @click="photograph()"
+                  >拍照</el-button
+                > -->
               </div>
               <!-- <div class="options">
                 <p class="find"><a href="javascript:;">找回密码</a></p>
@@ -79,7 +84,7 @@
 <script>
 import store from "@/vuex/store";
 import { mapState } from "vuex";
-import {encrypt} from '../../utils/jsencrypt'
+import { encrypt } from "../../utils/jsencrypt";
 export default {
   store,
   name: "login",
@@ -91,25 +96,30 @@ export default {
         // {
         //   value: '0',
         //   label: '管理員'
-        // }, 
+        // },
         {
-          value: '1',
-          label: '教師'
-        }, {
-          value: '2',
-          label: '學生'
-        }],
-        value: '2',
+          value: "1",
+          label: "教師",
+        },
+        {
+          value: "2",
+          label: "學生",
+        },
+      ],
+      value: "2",
       formLabelAlign: {
         username: "20154084", //data
         password: "123456", //默认password
-        type: "2"
+        type: "2",
       },
       //選擇框内容
-
-      }
+    };
   },
   methods: {
+    //拍照
+    photograph() {
+      this.$router.push({ path: "/StudentPhotograph" }); //跳转到教师用户
+    },
     //用户登录请求后台处理
     login() {
       console.log("登录操作执行-------");
@@ -118,9 +128,9 @@ export default {
         url: `/api/auth/loginExam`,
         method: "post",
         data: {
-              username: this.formLabelAlign.username, //用户名
-              password: encrypt(this.formLabelAlign.password), //密码
-              type: this.formLabelAlign.type //用户类型
+          username: this.formLabelAlign.username, //用户名
+          password: encrypt(this.formLabelAlign.password), //密码
+          type: this.formLabelAlign.type, //用户类型
         },
       }).then((res) => {
         let resData = res.data.data;
@@ -137,13 +147,13 @@ export default {
               this.$cookies.set("cname", resData.teacherName);
               this.$cookies.set("cid", resData.teacherId);
               this.$cookies.set("role", 1);
-              this.$cookies.set("token",resData.token);
+              this.$cookies.set("token", resData.token);
               this.$router.push({ path: "/index" }); //跳转到教师用户
               break;
             case "2": //学生
               this.$cookies.set("cname", resData.studentName);
               this.$cookies.set("cid", resData.studentId);
-              this.$cookies.set("token",resData.token);
+              this.$cookies.set("token", resData.token);
               this.$router.push({ path: "/student" });
               break;
           }
