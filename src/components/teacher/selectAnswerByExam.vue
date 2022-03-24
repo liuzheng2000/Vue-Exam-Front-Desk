@@ -9,7 +9,7 @@
       <el-table-column prop="type" label="试卷类型" width="170"></el-table-column>
       <el-table-column  label="操作" width="170">
         <template slot-scope="scope">
-          <el-button @click="add(scope.row.examCode,scope.row.source)" type="primary" size="small">增加题库</el-button>
+          <el-button @click="add(scope.row.examCode)" type="primary" size="small">题目列表</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -65,8 +65,8 @@ export default {
       this.pagination.current = val
       this.getExamInfo()
     },
-    add(examCode,subject) { //增加题库
-      this.$router.push({path:'/addAnswerChildren',query: {examCode: examCode,subject:subject}})
+    add(examCode) { //增加题库
+      this.$router.push({path:'/selectAnswer',query: {examCode: examCode}})
     }
   },
 };

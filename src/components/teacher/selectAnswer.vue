@@ -19,6 +19,7 @@
       :total="pagination.total"
       class="page"
     ></el-pagination>
+      <el-button @click="getBack()" type="primary" size="small">返回</el-button>
     <el-button @click="exportExcel()" type="primary" size="small"
       >导出
     </el-button>
@@ -60,13 +61,11 @@ export default {
     getAnswerInfo() {
       //分页查询所有题目信息
       this.$axios(
-        // `/api/answers/${this.pagination.current}/${this.pagination.size}`
-                     {
+        {
         headers: { Authorization: this.$cookies.get("token") },  //设置的请求头
-        url: `/api/ExamAnswerQuery/answersByTeacherID/${this.pagination.current}/${this.pagination.size}/${this.$cookies.get("cid")}`,
+        url: `/api/ExamAnswerQuery/answersByTeacherID/${this.pagination.current}/${this.pagination.size}/${this.$cookies.get("cid")}/${this.$route.query.examCode}`,
         method: "Get",
         }
-        // `/api/answersByTeacherID/${this.pagination.current}/${this.pagination.size}/${this.$cookies.get("cid")}`
       )
         .then(res => {
           this.pagination = res.data.data;
@@ -90,7 +89,13 @@ export default {
       } else {
         return "success-row";
       }
+    },
+
+    getBack() {
+    this.$router.push({ path: "/selectAnswerByExam" });
     }
+
+
   }
 };
 </script>

@@ -219,36 +219,6 @@
         </div>
       </section>
     </el-tab-pane>
-    <el-tab-pane name="second">
-      <span slot="label"><i class="iconfont icon-daoru-tianchong"></i>在线组卷</span>
-      <div class="box">
-        <ul>
-          <li>
-            <span>试题难度:</span>
-            <el-select v-model="difficultyValue" placeholder="试题难度" class="w150">
-              <el-option
-                v-for="item in difficulty"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
-          </li>
-          <li>
-            <span>选择题数量：</span> <el-input type="text" v-model="changeNumber"></el-input>
-          </li>
-          <li>
-            <span>填空题数量：</span> <el-input type="text" v-model="fillNumber"></el-input>
-          </li>
-          <li>
-            <span>判断题数量：</span> <el-input type="text" v-model="judgeNumber"></el-input>
-          </li>
-          <li>
-            <el-button type="primary" @click="create()">立即组卷</el-button>
-          </li>
-        </ul>
-      </div>
-    </el-tab-pane>
   </el-tabs>
   </div>
 </template>
@@ -333,6 +303,8 @@ export default {
       paperId: null,
       optionValue: '选择题', //题型选中值
       subject: '', //试卷名称用来接收路由参数
+      examCode:'',
+      teacherID:this.$cookies.get("cid"),
       postChange: { //选择题提交内容
         subject: '', //试卷名称
         level: '', //难度等级选中值 
@@ -344,7 +316,8 @@ export default {
         answerB: '',
         answerC: '',
         answerD: '',
-        teacherID:this.$cookies.get("cid"),
+       teacherID:this.$cookies.get("cid"),
+      examCode:this.$route.query.examCode,
       },
       postFill: { //填空题提交内容
         subject: '', //试卷名称
@@ -354,6 +327,7 @@ export default {
         question: '', //题目
         analysis: '', //解析
         teacherID:this.$cookies.get("cid"),
+      examCode:this.$route.query.examCode,
       },
       postJudge: { //判断题提交内容
         subject: '', //试卷名称
@@ -363,6 +337,7 @@ export default {
         question: '', //题目
         analysis: '', //解析
         teacherID:this.$cookies.get("cid"),
+       examCode:this.$route.query.examCode,
       },
       postPaper: { //考试管理表对应字段
         paperId: null,
@@ -410,18 +385,21 @@ export default {
             type: 'error'
           })
         }
-
       })
     },
     getParams() {
       let subject = this.$route.query.subject //获取试卷名称
       let paperId = this.$route.query.paperId //获取paperId
+      let examCode =  this.$route.query.examCode //获取paperId
       this.paperId = paperId
       this.subject = subject
       this.postPaper.paperId = paperId
+      this.examCode = examCode
     },
     changeSubmit() { //选择题题库提交
       this.postChange.subject = this.subject
+      this.postChange.teacherID = this.teacherID
+      this.postChange.examCode = this.examCode
       this.$axios({ //提交数据到选择题题库表
         // url: '/api/MultiQuestion',
         headers: { Authorization: this.$cookies.get("token") },  //设置的请求头
@@ -438,6 +416,8 @@ export default {
             type: 'success'
           })
           this.postChange = {}
+          this.postChange.teacherID = this.$cookies.get("cid"),
+          this.postChange.examCode = this.$route.query.examCode
         }
       }).then(() => {
         this.$axios(
@@ -447,7 +427,6 @@ export default {
         method: "Get",
         }
           // `/api/multiQuestionId`
-          
           ).then(res => { //获取当前题目的questionId
           let questionId = res.data.data.questionId
           this.postPaper.questionId = questionId
@@ -465,6 +444,8 @@ export default {
     },
     fillSubmit() { //填空题提交
       this.postFill.subject = this.subject
+      this.postFill.teacherID = this.teacherID
+      this.postFill.examCode = this.examCode
       this.$axios({
         //  url: '/api/fillQuestion',
         headers: { Authorization: this.$cookies.get("token") },  //设置的请求头
@@ -484,7 +465,7 @@ export default {
         }
       }).then(() => {
         this.$axios(
-                  {
+        {
         headers: { Authorization: this.$cookies.get("token") },  //设置的请求头
         url: `/api/uploadQuestion/fillQuestionId`,
         method: "Get",
@@ -505,8 +486,10 @@ export default {
         })
       })
     },
-    judgeSubmit() { //判断题提交
+    judgeSubmit() { //判断题提交 
       this.postJudge.subject = this.subject
+      this.postJudge.teacherID = this.teacherID
+      this.postJudge.examCode = this.examCode
       this.$axios({
         headers: { Authorization: this.$cookies.get("token") },  //设置的请求头
         url: '/api/uploadQuestion/judgeQuestionByTeacherID',
@@ -523,6 +506,8 @@ export default {
             type: 'success'
           })
           this.postJudge = {}
+          this.postJudge.teacherID = this.$cookies.get("cid"),
+          this.postJudge.examCode = this.$route.query.examCode
         }
       }).then(() => {
         this.$axios(

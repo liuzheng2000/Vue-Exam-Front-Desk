@@ -57,14 +57,29 @@ export default new Router({
                         import ('@/components/teacher/selectExam')
                 },
                 {
+                    path: '/previewExam', //查询所有考试
+                    component: () =>
+                        import ('@/components/teacher/previewExam')
+                },
+                {
                     path: '/addExam', //添加考试
                     component: () =>
                         import ('@/components/teacher/addExam')
                 },
                 {
+                    path: '/addExamChildren', //自动组卷页面
+                    component: () =>
+                        import ('@/components/teacher/addExamChildren')
+                },
+                {
                     path: '/answerDescription', //题库管理功能介绍
                     component: () =>
                         import ('@/components/teacher/answerDescription')
+                },
+                {
+                    path: '/selectAnswerByExam', //查询所有题目列表
+                    component: () =>
+                        import ('@/components/teacher/selectAnswerByExam')
                 },
                 {
                     path: '/selectAnswer', //查询所有题库
