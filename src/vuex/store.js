@@ -31,6 +31,12 @@ const state = {
             icon: 'icon-role',
             content: [{ item1: '学生管理', path: '/studentManage' }, { item2: '添加学生', path: '/addStudent' }],
         },
+        {
+            index: '5',
+            title: '学生考试管理',
+            icon: 'icon-role',
+            content: [{ item1: '考试学生', path: '/studentAndExam' }],
+        },
         // {
         //   index: '5',
         //   title: '教师管理',

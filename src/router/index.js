@@ -115,7 +115,17 @@ export default new Router({
                     path: '/addTeacher',
                     component: () =>
                         import ('@/components/admin/addTeacher')
-                }
+                },
+                {
+                    path: '/studentAndExam', //考试人员管理列表
+                    component: () =>
+                        import ('@/components/teacher/studentAndExam')
+                },
+                {
+                    path: '/studentAndExamChildren', //考试人员管理列表子表
+                    component: () =>
+                        import ('@/components/teacher/studentAndExamChildren')
+                },
             ]
         },
         {

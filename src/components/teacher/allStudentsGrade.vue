@@ -78,6 +78,7 @@ export default {
           // `/api/stu/students/${this.pagination.current}/${this.pagination.size}/${this.$cookies.get("cid")}`
         ).then(res => {
         this.pagination = res.data.data;
+        console.log(this.pagination);
       }).catch(error => {});
     },
 

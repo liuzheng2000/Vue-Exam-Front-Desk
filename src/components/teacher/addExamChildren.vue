@@ -176,7 +176,7 @@ export default {
           judgeNumber: this.judgeNumber,
           paperId: this.paperId,
           teacherId:this.$cookies.get("cid"),
-          subject:  this.$route.query.subject//题目数量太少，指定为计算机网络出题
+          subject:  this.$route.query.subject//
         }
       }).then(res => {
         console.log(res)
