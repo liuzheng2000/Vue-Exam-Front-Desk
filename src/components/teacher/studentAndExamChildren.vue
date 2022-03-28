@@ -95,7 +95,7 @@ export default {
   data() {
     return {
       examCode: this.$route.query.examCode,
-      teacherID: this.$cookies.get("role"),
+      teacherID: this.$cookies.get("cid"),
       pagination: {},
       studentNotInExamPagination: {},
     };
