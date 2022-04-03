@@ -48,10 +48,10 @@
         label="考生提示"
         width="400"
       ></el-table-column>
-      <el-table-column  label="操作" width="250">
+      <el-table-column label="操作" width="250">
         <template slot-scope="scope">
           <el-button
-            @click="ChangeExamChildren(scope.row.paperId,scope.row.source)"
+            @click="ChangeExamChildren(scope.row.paperId, scope.row.source)"
             type="primary"
             size="small"
             >自动组卷</el-button
@@ -139,6 +139,27 @@
       >导出
     </el-button>
     <el-button @click="goPrint()" type="primary" size="small">打印 </el-button>
+
+    <el-upload
+      class="upload-demo"
+      ref="upload"
+      action="https://jsonplaceholder.typicode.com/posts/"
+      :on-preview="handlePreview"
+      :on-remove="handleRemove"
+      :on-success="handleSuccess"
+      :file-list="fileList"
+      :auto-upload="false"
+      :http-request="handleUpload"
+    >
+      <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+      <el-button
+        style="margin-left: 10px"
+        size="small"
+        type="success"
+        @click="submitUpload"
+        >上传到服务器</el-button
+      >
+    </el-upload>
   </div>
 </template>
 
@@ -156,12 +177,75 @@ export default {
         size: 4, //每页条数
       },
       dialogVisible: false,
+      fileList: [],
     };
   },
   created() {
     this.getExamInfo();
   },
   methods: {
+    //文件上传设置
+    submitUpload() {
+      let list = document.getElementsByClassName(
+        "el-upload-list__item is-ready"
+      );
+      if (list.length == 0) {
+        this.$message({
+          type: "warning",
+          message: "请选择需要导入的模板！",
+        });
+        return;
+      }
+      this.$refs.upload.submit();
+    },
+    handleRemove(file, fileList) {
+      console.log(file, fileList);
+    },
+    handlePreview(file) {
+      console.log(file);
+    },
+    handleSuccess() {
+      this.$message({
+        //成功修改提示
+        message: "批量上传成功",
+        type: "success",
+      });
+      console.log("上传完成");
+      this.fileList = [];
+      this.getExamInfo();
+    },
+
+    handleUpload(param) {
+      console.log("进行上传");
+      var fileObj = param.file;
+      // FormData 对象
+      var form = new FormData();
+      // 文件对象
+      form.append("file", fileObj);
+      form.append("teacherID", this.$cookies.get("cid"));
+      this.$axios({
+        headers: {
+          Authorization: this.$cookies.get("token"),
+          "Content-Type": "multipart/form-data",
+        }, //设置的请求头
+        url: "/api/ExamTeacher/upLoadForm",
+        method: "Post",
+        data: form,
+      })
+        .then((res) => {
+          if (res.data.code == 200) {
+            this.handleSuccess();
+          } else {
+            this.$message({
+              //成功修改提示
+              message: "批量上传失败",
+              type: "error",
+            });
+          }
+        })
+        .catch((err) => {});
+    },
+
     goPrint() {
       let printJSONTemp = JSON.stringify(this.pagination.records);
       console.log(printJSONTemp);
@@ -207,10 +291,13 @@ export default {
       XLSX.writeFile(workbook, "考试安排.xlsb");
     },
 
-    ChangeExamChildren(paperId,subject) { //自动组卷 设置 
-      this.$router.push({path:'/addExamChildren',query: {paperId: paperId,subject:subject}})
+    ChangeExamChildren(paperId, subject) {
+      //自动组卷 设置
+      this.$router.push({
+        path: "/addExamChildren",
+        query: { paperId: paperId, subject: subject },
+      });
     },
-
 
     edit(examCode) {
       //编辑试卷
@@ -230,6 +317,7 @@ export default {
         }
       });
     },
+
     handleClose(done) {
       //关闭提醒
       this.$confirm("确认关闭？")
@@ -321,5 +409,8 @@ export default {
   .edit {
     margin-left: 20px;
   }
+}
+.upload-demo {
+  padding: 20px 0px;
 }
 </style>
