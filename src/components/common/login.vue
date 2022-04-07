@@ -43,7 +43,13 @@
                 ></el-input>
               </el-form-item>
               <div class="submit">
-                <el-button type="primary" class="row-login" @click="login()">登录</el-button>
+                <el-button type="primary" class="row-login" @click="login()"
+                  >登录</el-button
+                >
+
+                <el-button type="primary" class="row-login" @click="register()"
+                  >注册</el-button
+                >
 
                 <!-- <el-button
                   type="primary"
@@ -116,6 +122,11 @@ export default {
     };
   },
   methods: {
+    //注册
+    register() {
+      this.$router.push({ path: "/registerPage" }); //跳转到注册页面
+    },
+
     //拍照
     photograph() {
       this.$router.push({ path: "/StudentPhotograph" }); //跳转到教师用户
@@ -252,8 +263,8 @@ a:link {
   width: 100%;
   background-color: #04468b;
   border-color: #04468b;
-  margin: 20px 0px 10px 0px;
-  padding: 15px 20px;
+  margin: 0px 10px 0px 20px;
+  padding: 15px;
 }
 .bottom .submit {
   display: flex;

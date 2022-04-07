@@ -10,6 +10,12 @@ export default new Router({
                 import ('@/components/common/login')
         },
         {
+            path: '/registerPage',
+            name: 'registerPage', //注册页面
+            component: () =>
+                import ('@/components/common/registerPage')
+        },
+        {
             path: '/StudentPhotograph',
             name: 'StudentPhotograph', //拍照界面
             component: () =>
