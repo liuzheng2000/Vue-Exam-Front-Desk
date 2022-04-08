@@ -60,6 +60,7 @@ export default {
   // name: 'myExam'
   data() {
     return {
+      IsExamOrPractice:true,
       loading: false,
       key: null, //搜索关键字
       allExam: null, //所有考试信息
@@ -172,7 +173,7 @@ export default {
 
     //跳转到试卷详情页
     toExamMsg(examCode) {
-      this.$router.push({ path: "/examMsg", query: { examCode: examCode } });
+      this.$router.push({ path: "/examMsg", query: { examCode: examCode ,IsExamOrPractice: this.IsExamOrPractice} });
       console.log(examCode);
     },
   },

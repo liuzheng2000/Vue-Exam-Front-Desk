@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import screenfull from "screenfull";
 export default {
   data() {
     return {
@@ -52,7 +53,13 @@ export default {
     this.transiton()
     this.getScore()
   },
+  mounted() {
+    screenfull.off('change', console.log("退出全屏"));
+    window.removeEventListener("keydown", this.KeyDown, true); // 监听按键事件
+    screenfull.exit();
+  },
   methods: {
+  
     transiton() {  //一秒后过渡
       setTimeout(() => {
         this.isTransition = true

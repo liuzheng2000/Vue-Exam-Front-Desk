@@ -22,7 +22,9 @@
         <li>考试时间：{{examData.examDate}}</li>
         <li>来自 {{examData.institute}}</li>
         <li class="btn">{{examData.type}}</li>
-        <li class="right"><el-button @click="toAnswer(examData.examCode)">开始答题</el-button></li>
+        <li class="right"><el-button  v-if="IsExamOrPractice" @click="toExamAnswer(examData.examCode)">正式考试</el-button>
+        <el-button  v-if="!IsExamOrPractice" @click="toAnswer(examData.examCode)">测试考试</el-button>
+      </li>
       </ul>
       <ul class="info">
         <li @click="dialogVisible = true"><a href="javascript:;"><i class="iconfont icon-info"></i>考生须知</a></li>
@@ -89,9 +91,11 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   data() {
     return {
+      IsExamOrPractice: this.$route.query.IsExamOrPractice,
       dialogVisible: false, //对话框属性
       activeName: '0',  //默认打开序号
       topicCount: [],//每种类型题目的总数
@@ -146,8 +150,13 @@ export default {
       })
     },
     toAnswer(id) {
-      this.$router.push({path:"/answer",query:{examCode: id}})
+        this.$router.push({path:"/answer",query:{examCode: id}})
     },
+
+    toExamAnswer(id) {
+        this.$router.push({path:"/examAnswer",query:{examCode: id}})
+    },
+    computed: mapState(["isPractice"]),
   }
 }
 </script>

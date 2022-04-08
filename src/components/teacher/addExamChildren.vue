@@ -176,7 +176,7 @@ export default {
           judgeNumber: this.judgeNumber,
           paperId: this.paperId,
           teacherId:this.$cookies.get("cid"),
-          subject:  this.$route.query.subject//
+          examCode:  this.$route.query.examCode//
         }
       }).then(res => {
         console.log(res)

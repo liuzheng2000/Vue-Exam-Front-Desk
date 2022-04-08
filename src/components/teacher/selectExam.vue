@@ -51,7 +51,7 @@
       <el-table-column label="操作" width="250">
         <template slot-scope="scope">
           <el-button
-            @click="ChangeExamChildren(scope.row.paperId, scope.row.source)"
+            @click="ChangeExamChildren(scope.row.paperId, scope.row.examCode)"
             type="primary"
             size="small"
             >自动组卷</el-button
@@ -291,11 +291,11 @@ export default {
       XLSX.writeFile(workbook, "考试安排.xlsb");
     },
 
-    ChangeExamChildren(paperId, subject) {
+    ChangeExamChildren(paperId, examCode) {
       //自动组卷 设置
       this.$router.push({
         path: "/addExamChildren",
-        query: { paperId: paperId, subject: subject },
+        query: { paperId: paperId, examCode: examCode },
       });
     },
 

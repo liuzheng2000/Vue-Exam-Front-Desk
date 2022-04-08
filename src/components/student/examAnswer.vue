@@ -1,234 +1,191 @@
 <!--考生答题界面-->
 <template>
-  <div id="answer">
-    <!--顶部信息栏-->
-    <div class="top">
-      <ul class="item">
-        <li>
-          <i
-            class="iconfont icon-menufold icon20"
-            ref="toggle"
-            @click="slider_flag = !slider_flag"
-          ></i>
-        </li>
-        <li>{{ examData.source }}</li>
-        <li @click="flag = !flag">
-          <i class="iconfont icon-user icon20"></i>
-          <div class="msg" v-if="flag" @click="flag = !flag">
-            <p>姓名：{{ userInfo.name }}</p>
-            <p>准考证号: {{ userInfo.id }}</p>
-          </div>
-        </li>
-        <li><i class="iconfont icon-arrLeft icon20"></i></li>
-      </ul>
-    </div>
-    <div class="flexarea">
-      <!--左边题目编号区-->
-      <transition name="slider-fade">
-        <div class="left" v-if="slider_flag">
-          <ul class="l-top">
-            <li>
-              <a href="javascript:;"></a>
-              <span>当前</span>
-            </li>
-            <li>
-              <a href="javascript:;"></a>
-              <span>未答</span>
-            </li>
-            <li>
-              <a href="javascript:;"></a>
-              <span>已答</span>
-            </li>
-            <li>
-              <a href="javascript:;"></a>
-              <span>标记</span>
-            </li>
-          </ul>
-          <div class="l-bottom">
-            <div class="item">
-              <p>选择题部分</p>
-              <ul>
-                <li v-for="(list, index1) in topic[1]" :key="index1">
-                  <a
-                    href="javascript:;"
-                    @click="change(index1)"
-                    :class="{
-                      border: index == index1 && currentType == 1,
-                      bg: bg_flag && topic[1][index1].isClick == true,
-                    }"
-                  >
-                    <span
-                      :class="{ mark: topic[1][index1].isMark == true }"
-                    ></span>
-                    {{ index1 + 1 }}
-                  </a>
-                </li>
-              </ul>
+  <div id="con_lf_top_div">
+    <div id="answer">
+      <!--顶部信息栏-->
+      <div class="top">
+        <ul class="item">
+          <li>
+            <i
+              class="iconfont icon-menufold icon20"
+              ref="toggle"
+              @click="slider_flag = !slider_flag"
+            ></i>
+          </li>
+          <li>{{ examData.source }}</li>
+          <li @click="flag = !flag">
+            <i class="iconfont icon-user icon20"></i>
+            <div class="msg" v-if="flag" @click="flag = !flag">
+              <p>姓名：{{ userInfo.name }}</p>
+              <p>准考证号: {{ userInfo.id }}</p>
             </div>
-            <div class="item">
-              <p>填空题部分</p>
-              <ul>
-                <li v-for="(list, index2) in topic[2]" :key="index2">
-                  <a
-                    href="javascript:;"
-                    @click="fill(index2)"
-                    :class="{
-                      border: index == index2 && currentType == 2,
-                      bg: fillAnswer[index2][3] == true,
-                    }"
-                    ><span
-                      :class="{ mark: topic[2][index2].isMark == true }"
-                    ></span
-                    >{{ topicCount[0] + index2 + 1 }}</a
-                  >
-                </li>
-              </ul>
+          </li>
+          <li><i class="iconfont icon-arrLeft icon20"></i></li>
+        </ul>
+      </div>
+      <div class="flexarea">
+        <!--左边题目编号区-->
+        <transition name="slider-fade">
+          <div class="left" v-if="slider_flag">
+            <ul class="l-top">
+              <li>
+                <a href="javascript:;"></a>
+                <span>当前</span>
+              </li>
+              <li>
+                <a href="javascript:;"></a>
+                <span>未答</span>
+              </li>
+              <li>
+                <a href="javascript:;"></a>
+                <span>已答</span>
+              </li>
+              <li>
+                <a href="javascript:;"></a>
+                <span>标记</span>
+              </li>
+            </ul>
+            <div class="l-bottom">
+              <div class="item">
+                <p>选择题部分</p>
+                <ul>
+                  <li v-for="(list, index1) in topic[1]" :key="index1">
+                    <a
+                      href="javascript:;"
+                      @click="change(index1)"
+                      :class="{
+                        border: index == index1 && currentType == 1,
+                        bg: bg_flag && topic[1][index1].isClick == true,
+                      }"
+                    >
+                      <span
+                        :class="{ mark: topic[1][index1].isMark == true }"
+                      ></span>
+                      {{ index1 + 1 }}
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <div class="item">
+                <p>填空题部分</p>
+                <ul>
+                  <li v-for="(list, index2) in topic[2]" :key="index2">
+                    <a
+                      href="javascript:;"
+                      @click="fill(index2)"
+                      :class="{
+                        border: index == index2 && currentType == 2,
+                        bg: fillAnswer[index2][3] == true,
+                      }"
+                      ><span
+                        :class="{ mark: topic[2][index2].isMark == true }"
+                      ></span
+                      >{{ topicCount[0] + index2 + 1 }}</a
+                    >
+                  </li>
+                </ul>
+              </div>
+              <div class="item">
+                <p>判断题部分</p>
+                <ul>
+                  <li v-for="(list, index3) in topic[3]" :key="index3">
+                    <a
+                      href="javascript:;"
+                      @click="judge(index3)"
+                      :class="{
+                        border: index == index3 && currentType == 3,
+                        bg: bg_flag && topic[3][index3].isClick == true,
+                      }"
+                      ><span
+                        :class="{ mark: topic[3][index3].isMark == true }"
+                      ></span
+                      >{{ topicCount[0] + topicCount[1] + index3 + 1 }}</a
+                    >
+                  </li>
+                </ul>
+              </div>
+              <div class="final" @click="commit()">结束考试</div>
             </div>
-            <div class="item">
-              <p>判断题部分</p>
-              <ul>
-                <li v-for="(list, index3) in topic[3]" :key="index3">
-                  <a
-                    href="javascript:;"
-                    @click="judge(index3)"
-                    :class="{
-                      border: index == index3 && currentType == 3,
-                      bg: bg_flag && topic[3][index3].isClick == true,
-                    }"
-                    ><span
-                      :class="{ mark: topic[3][index3].isMark == true }"
-                    ></span
-                    >{{ topicCount[0] + topicCount[1] + index3 + 1 }}</a
-                  >
-                </li>
-              </ul>
+          </div>
+        </transition>
+        <!--右边选择答题区-->
+        <transition name="slider-fade">
+          <div class="right">
+            <div class="title">
+              <p>{{ title }}</p>
+              <i class="iconfont icon-right auto-right"></i>
+              <span
+                >全卷共{{ topicCount[0] + topicCount[1] + topicCount[2] }}题
+                <i class="iconfont icon-time"></i>倒计时：<b>{{ time }}</b
+                >分钟</span
+              >
             </div>
-            <div class="final" @click="commit()">结束考试</div>
-          </div>
-        </div>
-      </transition>
-      <!--右边选择答题区-->
-      <transition name="slider-fade">
-        <div class="right">
-          <div class="title">
-            <p>{{ title }}</p>
-            <i class="iconfont icon-right auto-right"></i>
-            <span
-              >全卷共{{ topicCount[0] + topicCount[1] + topicCount[2] }}题
-              <i class="iconfont icon-time"></i>倒计时：<b>{{ time }}</b
-              >分钟</span
-            >
-          </div>
-          <div class="content">
-            <p class="topic">
-              <span class="number">{{ number }}</span
-              >{{ showQuestion }}
-            </p>
-            <div v-if="currentType == 1">
-              <el-radio-group v-model="radio[index]" @change="getChangeLabel">
-                <el-radio :label="1">{{ showAnswer.answerA }}</el-radio>
-                <el-radio :label="2">{{ showAnswer.answerB }}</el-radio>
-                <el-radio :label="3">{{ showAnswer.answerC }}</el-radio>
-                <el-radio :label="4">{{ showAnswer.answerD }}</el-radio>
-              </el-radio-group>
-              <!-- <el-checkbox-group v-model="radio[index]" @change="getChangeLabel" >
+            <div class="content">
+              <p class="topic">
+                <span class="number">{{ number }}</span
+                >{{ showQuestion }}
+              </p>
+              <div v-if="currentType == 1">
+                <el-radio-group v-model="radio[index]" @change="getChangeLabel">
+                  <el-radio :label="1">{{ showAnswer.answerA }}</el-radio>
+                  <el-radio :label="2">{{ showAnswer.answerB }}</el-radio>
+                  <el-radio :label="3">{{ showAnswer.answerC }}</el-radio>
+                  <el-radio :label="4">{{ showAnswer.answerD }}</el-radio>
+                </el-radio-group>
+                <!-- <el-checkbox-group v-model="radio[index]" @change="getChangeLabel" >
                 <el-checkbox :label="1" >{{showAnswer.answerA}}</el-checkbox>
                 <el-checkbox :label="2" >{{showAnswer.answerB}}</el-checkbox>
                 <el-checkbox :label="3" >{{showAnswer.answerC}}</el-checkbox>
                 <el-checkbox :label="4" >{{showAnswer.answerD}}</el-checkbox>
                 </el-checkbox-group> -->
-
-              <div class="analysis" >
-                <ul>
-                  <li>
-                    <el-tag type="success">正确姿势：</el-tag
-                    ><span class="right">{{ reduceAnswer.rightAnswer }}</span>
-                  </li>
-                  <li><el-tag>题目解析：</el-tag></li>
-                  <li>
-                    {{
-                      reduceAnswer.analysis == null
-                        ? "暂无解析"
-                        : reduceAnswer.analysis
-                    }}
-                  </li>
-                </ul>
               </div>
-            </div>
-            <div class="fill" v-if="currentType == 2">
-              <div v-for="(item, currentIndex) in part" :key="currentIndex">
-                <el-input
-                  placeholder="请填在此处"
-                  v-model="fillAnswer[index][currentIndex]"
-                  clearable
-                  @blur="fillBG"
+              <div class="fill" v-if="currentType == 2">
+                <div v-for="(item, currentIndex) in part" :key="currentIndex">
+                  <el-input
+                    placeholder="请填在此处"
+                    v-model="fillAnswer[index][currentIndex]"
+                    clearable
+                    @blur="fillBG"
+                  >
+                  </el-input>
+                </div>
+              </div>
+              <div class="judge" v-if="currentType == 3">
+                <el-radio-group
+                  v-model="judgeAnswer[index]"
+                  @change="getJudgeLabel"
+                  v-if="currentType == 3"
                 >
-                </el-input>
-              </div>
-              <div class="analysis" >
-                <ul>
-                  <li>
-                    <el-tag type="success">正确姿势：</el-tag
-                    ><span class="right">{{ topic[2][index].answer }}</span>
-                  </li>
-                  <li><el-tag>题目解析：</el-tag></li>
-                  <li>
-                    {{
-                      topic[2][index].analysis == null
-                        ? "暂无解析"
-                        : topic[2][index].analysis
-                    }}
-                  </li>
-                </ul>
+                  <el-radio :label="1">正确</el-radio>
+                  <el-radio :label="2">错误</el-radio>
+                </el-radio-group>
               </div>
             </div>
-            <div class="judge" v-if="currentType == 3">
-              <el-radio-group
-                v-model="judgeAnswer[index]"
-                @change="getJudgeLabel"
-                v-if="currentType == 3"
-              >
-                <el-radio :label="1">正确</el-radio>
-                <el-radio :label="2">错误</el-radio>
-              </el-radio-group>
-              <div class="analysis" >
-                <ul>
-                  <li>
-                    <el-tag type="success">正确姿势：</el-tag
-                    ><span class="right">{{ topic[3][index].answer }}</span>
-                  </li>
-                  <li><el-tag>题目解析：</el-tag></li>
-                  <li>
-                    {{
-                      topic[3][index].analysis == null
-                        ? "暂无解析"
-                        : topic[3][index].analysis
-                    }}
-                  </li>
-                </ul>
-              </div>
+            <div class="operation">
+              <ul class="end">
+                <li @click="previous()">
+                  <i class="iconfont icon-previous"></i><span>上一题</span>
+                </li>
+                <li @click="mark()">
+                  <i class="iconfont icon-mark-o"></i><span>标记</span>
+                </li>
+                <li @click="next()">
+                  <span>下一题</span><i class="iconfont icon-next"></i>
+                </li>
+                <li id="testButt" @click="fullele()">
+                  <span>测试</span><i class="iconfont icon-next"></i>
+                </li>
+              </ul>
             </div>
           </div>
-          <div class="operation">
-            <ul class="end">
-              <li @click="previous()">
-                <i class="iconfont icon-previous"></i><span>上一题</span>
-              </li>
-              <li @click="mark()">
-                <i class="iconfont icon-mark-o"></i><span>标记</span>
-              </li>
-              <li @click="next()">
-                <span>下一题</span><i class="iconfont icon-next"></i>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </transition>
+        </transition>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import screenfull from "screenfull";
 import store from "@/vuex/store";
 import { mapState } from "vuex";
 export default {
@@ -271,6 +228,8 @@ export default {
       judgeAnswer: [], //保存所有判断题答案
       topic1Answer: [], //学生选择题作答编号,
       rightAnswer: "",
+      isChangeSize: true, //防止多次点击
+      count: 0,
     };
   },
   //一般可以在created函数中调用ajax获取页面初始化所需的数据。
@@ -279,7 +238,90 @@ export default {
     this.getExamData(); //获取当前试卷所有信息
     this.showTime();
   },
+
+  mounted() {
+    window.addEventListener("keydown", this.KeyDown, true); // 监听按键事件
+    this.fullele();
+    this.SizeChange();
+  },
+
+  beforeDestroy() {
+    window.removeEventListener("keydown", this.KeyDown, true); // 监听按键事件
+    this.destroy();
+  },
+
   methods: {
+    SizeChange() {
+      // 全屏监听
+      window.onresize = () => {
+        if (screenfull.isFullscreen) {
+        } else {
+          console.log("退出次数" + this.count++);
+          this.$alert('请不要退出全屏,信息上报', '考试注意', {
+          confirmButtonText: '确定',
+          callback: action => {
+              this.fullele();
+          }
+        });
+        }
+      };
+    },
+    destroy() {
+           window.onresize = () => {
+          };
+    },
+    KeyDown(event) {
+      if (event.keyCode === 122) {
+        //禁用f11
+        event.returnValue = false;
+      }
+    },
+    // ChangeSize() {
+    //   this.ChangeSizeByte();
+    // },
+
+    //监听进入全屏的事件修改
+    // ChangeSizeByte() {
+    //   console.log(screenfull.isFullscreen);
+    //   screenfull.on("change", () => {
+    //     if (screenfull.isFullscreen) {
+    //     } else {
+    //       console.log("退出次数" + this.count++);
+    //       document.getElementById("testButt").click();
+    //     }
+    //   });
+    // },
+
+    // 进入全屏
+    fullele() {
+      // 如果不允许进入全屏，发出不允许提示
+      if (
+        window.location.href.includes(
+          "http://localhost:8088/#/examAnswer?examCode="
+        )
+      ) {
+        screenfull.request();
+      }
+      // this.isFullScreen();
+    },
+
+    isFullScreen() {
+      this.isFullScreenType = this.isFullScreenTree();
+    },
+    //判断是否全屏
+    isFullScreenTree() {
+      if (document.mozFullScreen) {
+        return true;
+      } else if (document.webkitIsFullScreen) {
+        return true;
+      } else if (document.msFullscreenElement) {
+        return true;
+      } else if (window.fullScreen) {
+        return true;
+      }
+      return false;
+    },
+
     getTime(date) {
       //日期格式化
       let year = date.getFullYear();
@@ -323,27 +365,26 @@ export default {
       this.startTime = this.getTime(date);
       let examCode = this.$route.query.examCode; //获取路由传递过来的试卷编号
       this.$axios(
-             {
-        headers: { Authorization: this.$cookies.get("token") },  //设置的请求头
-        url:  `/api/Examexam/exam/${examCode}`,
-        method: "Get",
+        {
+          headers: { Authorization: this.$cookies.get("token") }, //设置的请求头
+          url: `/api/Examexam/exam/${examCode}`,
+          method: "Get",
         }
         // `/api/exam/${examCode}`
-        
-        ).then((res) => {
+      ).then((res) => {
         //通过examCode请求试卷详细信息
         this.examData = { ...res.data.data }; //获取考试详情
         this.index = 0;
         this.time = this.examData.totalScore; //获取分钟数
         let paperId = this.examData.paperId;
         this.$axios(
-                  {
-        headers: { Authorization: this.$cookies.get("token") },  //设置的请求头
-        url:  `/api/ExamPaper/paper/${paperId}`,
-        method: "Get",
-        }
+          {
+            headers: { Authorization: this.$cookies.get("token") }, //设置的请求头
+            url: `/api/ExamPaper/paper/${paperId}`,
+            method: "Get",
+          }
           // `/api/paper/${paperId}`
-          ).then((res) => {
+        ).then((res) => {
           //通过paperId获取试题题目信息
           this.topic = { ...res.data };
           let reduceAnswer = this.topic[1][this.index];
@@ -579,6 +620,7 @@ export default {
         }
       });
       console.log(`目前总分${finalScore}`);
+      screenfull.off("change", console.log("退出全屏"));
       if (this.time != 0) {
         this.$confirm("考试结束时间未到,是否提前交卷", "友情提示", {
           confirmButtonText: "立即交卷",
@@ -586,65 +628,15 @@ export default {
           type: "warning",
         })
           .then(() => {
-            console.log("交卷");
+            window.onresize = () => {
+          };
+
             let date = new Date();
             this.endTime = this.getTime(date);
             let answerDate = this.endTime.substr(0, 10);
-
-            // //发送选择题
-            // this.$axios({
-            //   url: `/api/SourceChooseAnswer`,
-            //   method: "post",
-            //   data: {
-            //         chooseAnswer: topic1Answer, //选择题答案
-            //         ChooseTopic: this.topic[1] //题目
-            //   },
-            // }).then((res) => {
-            //   if (resData == null) {
-
-            //   }
-            // }).catch(()=>{
-            //    //错误提示
-            //    console.log("抱歉答案提交出现问题，请联系老师");
-            // }),
-
-            // //发送填空题
-            // this.$axios({
-            //   url: `/api/SourceFillAnswer`,
-            //   method: "post",
-            //   data: {
-            //         fillAnswer: this.fillAnswer, //填空题答案
-            //         fillTopic: this.topic[2] //题目
-            //   },
-            // }).then((res) => {
-            //   if (resData == null) {
-
-            //   }
-            // }).catch(()=>{
-            //    //错误提示
-            //    console.log("抱歉答案提交出现问题，请联系老师");
-            // })
-
-            //    //发送判断题目
-            // this.$axios({
-            //   url: `/api/SourceJudgeAnswer`,
-            //   method: "post",
-            //   data: {
-            //         judgeAnswer: this.judgeAnswer, //判断题答案
-            //         judgeTopic: this.topic[3] //判断题题目
-            //   },
-            // }).then((res) => {
-            //   if (resData == null) {
-
-            //   }
-            // }).catch(()=>{
-            //    //错误提示
-            //    console.log("抱歉答案提交出现问题，请联系老师");
-            // })
-
             //发送判断题目与答案
             this.$axios({
-              headers: { Authorization: this.$cookies.get("token") },  //设置的请求头
+              headers: { Authorization: this.$cookies.get("token") }, //设置的请求头
               url: `/api/ExamSourceAnswer/SourceAnswer`,
               method: "post",
               data: {
@@ -658,7 +650,7 @@ export default {
                 examCode: this.examData.examCode, //考试编号
                 studentId: this.userInfo.id, //学号
                 subject: this.examData.source, //课程名称
-                answerDate: answerDate, //答题日期  
+                answerDate: answerDate, //答题日期
               },
             })
               .then((res) => {
@@ -677,16 +669,16 @@ export default {
                     //     answerDate: answerDate, //答题日期
                     //   },
                     // }).then((res) => {
-                      // if (res.data.code == 200) {
-                        this.$router.push({
-                          path: "/studentScore",
-                          query: {
-                            score: finalScore,
-                            startTime: this.startTime,
-                            endTime: this.endTime,
-                          },
-                        });
-                      }
+                    // if (res.data.code == 200) {
+                    this.$router.push({
+                      path: "/studentScore",
+                      query: {
+                        score: finalScore,
+                        startTime: this.startTime,
+                        endTime: this.endTime,
+                      },
+                    });
+                }
                 //     });
                 // } else {
                 //   console.log("出现问题，请联系老师");

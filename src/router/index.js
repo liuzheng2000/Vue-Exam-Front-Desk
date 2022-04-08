@@ -179,6 +179,12 @@ export default new Router({
             path: '/answer',
             component: () =>
                 import ('@/components/student/answer')
+        },
+
+        {
+            path: '/examAnswer',
+            component: () =>
+                import ('@/components/student/examAnswer')
         }
     ]
 })
