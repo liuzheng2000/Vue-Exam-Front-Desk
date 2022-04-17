@@ -144,7 +144,12 @@
                   <el-radio :label="3">{{ showAnswer.answerC }}</el-radio>
                   <el-radio :label="4">{{ showAnswer.answerD }}</el-radio>
                 </el-radio-group>
-
+                <!-- <el-checkbox-group v-model="radio[index]" @change="getChangeLabel" >
+                <el-checkbox :label="1" >{{showAnswer.answerA}}</el-checkbox>
+                <el-checkbox :label="2" >{{showAnswer.answerB}}</el-checkbox>
+                <el-checkbox :label="3" >{{showAnswer.answerC}}</el-checkbox>
+                <el-checkbox :label="4" >{{showAnswer.answerD}}</el-checkbox>
+                </el-checkbox-group> -->
               </div>
               <div class="fill" v-if="currentType == 2">
                 <div v-for="(item, currentIndex) in part" :key="currentIndex">
@@ -275,7 +280,7 @@ export default {
      this.VueInterval = setInterval(() => {
         // console.log("开始---");
         this.RandomPhotography();
-      }, Math.round((Math.random()*5000) + 1000)*10);
+      }, Math.round((Math.random()*5000) + 1000)*60);
     },
     //实时拍照上传
     RandomPhotography() {

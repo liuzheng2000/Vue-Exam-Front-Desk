@@ -7,9 +7,7 @@
         <div class="bottom bottom-1">
           <div class="container">
             <video ref="video" width="160" height="100" autoplay></video>
-            <div class="submit">
-              <el-button type="primary" @click="callCamera">开启摄像头</el-button>
-            </div>
+
           </div>
         </div>
         <div class="bottom bottom-2">
@@ -67,7 +65,6 @@ export default {
       let size = (fileLength / 1024).toFixed(2);
       console.log(size); // 上传拍照信息  调用接口上传图片 .........
       console.log(this.headImgSrc);
-      
     },
     // 关闭摄像头
     closeCamera() {
@@ -82,7 +79,7 @@ export default {
       });
       this.$refs["video"].srcObject = null;
     },
-       uploadPhoto() { //分页查询所有试卷信息
+       uploadPhoto() { 
         this.$axios(
         {
         url:  `/PhotoAPI/photo/uploadImage`,

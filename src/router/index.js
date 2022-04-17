@@ -132,6 +132,16 @@ export default new Router({
                     component: () =>
                         import ('@/components/teacher/studentAndExamChildren')
                 },
+                {
+                    path: '/examPhoto',
+                    component: () =>
+                        import ('@/components/teacher/examPhoto')
+                },
+                {
+                    path: '/examPhotoChildren',
+                    component: () =>
+                        import ('@/components/teacher/examPhotoChildren')
+                }
             ]
         },
         {
@@ -185,6 +195,7 @@ export default new Router({
             path: '/examAnswer',
             component: () =>
                 import ('@/components/student/examAnswer')
-        }
+        },
+
     ]
 })

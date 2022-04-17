@@ -35,7 +35,7 @@ const state = {
             index: '5',
             title: '学生考试管理',
             icon: 'icon-role',
-            content: [{ item1: '考试学生', path: '/studentAndExam' }],
+            content: [{ item1: '考试学生', path: '/studentAndExam' }, { item1: '考试监考', path: '/examPhoto' }],
         },
         // {
         //   index: '5',
