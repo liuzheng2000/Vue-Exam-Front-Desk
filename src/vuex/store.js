@@ -29,7 +29,7 @@ const state = {
             index: '4',
             title: '学生管理',
             icon: 'icon-role',
-            content: [{ item1: '学生管理', path: '/studentManage' }, { item2: '添加学生', path: '/addStudent' }],
+            content: [{ item1: '学生管理', path: '/studentManage' }, { item2: '添加学生', path: '/addStudent' }, { item3: '学生申请', path: '/ProcessingStudentApplications' }],
         },
         {
             index: '5',

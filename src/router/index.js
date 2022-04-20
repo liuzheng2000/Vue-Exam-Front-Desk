@@ -141,6 +141,11 @@ export default new Router({
                     path: '/examPhotoChildren',
                     component: () =>
                         import ('@/components/teacher/examPhotoChildren')
+                },
+                {
+                    path: '/ProcessingStudentApplications',
+                    component: () =>
+                        import ('@/components/teacher/ProcessingStudentApplications')
                 }
             ]
         },
@@ -182,6 +187,11 @@ export default new Router({
                     path: '/scoreTable',
                     component: () =>
                         import ("@/components/student/scoreTable")
+                },
+                {
+                    path: '/stuSearchTeacher',
+                    component: () =>
+                        import ("@/components/student/stuSearchTeacher")
                 }
             ]
         },

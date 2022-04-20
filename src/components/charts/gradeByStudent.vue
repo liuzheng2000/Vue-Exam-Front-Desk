@@ -5,7 +5,7 @@
     <el-table  :data="pagination.records" border id="gradeScore">
       <el-table-column prop="studentName" label="姓名" width="400"></el-table-column>
       <el-table-column prop="subjectName" label="科目" width="380"></el-table-column>
-      <el-table-column prop="score" label="成绩" width="380"></el-table-column>
+      <el-table-column prop="score" label="期末成绩" width="380"></el-table-column>
     </el-table>
     <el-pagination
       @size-change="handleSizeChange"

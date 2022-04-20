@@ -801,11 +801,11 @@ export default {
                   fillTopic: this.topic[2], //题目
                   judgeAnswer: this.judgeAnswer, //判断题答案
                   judgeTopic: this.topic[3], //判断题题目
-
                   examCode: this.examData.examCode, //考试编号
                   studentId: this.userInfo.id, //学号
                   subject: this.examData.source, //课程名称
                   answerDate: answerDate, //答题日期
+                  finalExam: true
                 },
               })
                 .then((res) => {

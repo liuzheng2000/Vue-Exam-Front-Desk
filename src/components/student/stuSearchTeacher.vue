@@ -1,56 +1,50 @@
 // 我的考试页面
 <template>
   <div id="myExam">
-    <div class="title">练习试卷</div>
+    <div class="title">查询教师</div>
     <div class="wrapper">
       <ul class="top">
-        <li class="search-li">
-          <div class="icon">
-            <input
-              type="text"
-              placeholder="试卷名称"
-              class="search"
-              v-model.trim="key"
-            /><i class="el-icon-search"></i>
-          </div>
-        </li>
-        <li>
-          <el-button type="primary" @click="search()">搜索试卷</el-button>
-        </li>
       </ul>
       <ul class="paper" v-loading="loading">
         <li
           class="item"
-          v-for="(item, index) in pagination.records"
+          v-for="(item, index) in pagination"
           :key="index"
         >
-          <h4 @click="toExamMsg(item.examCode)">{{ item.source }}</h4>
-          <p class="name">{{ item.source }}-{{ item.description }}</p>
+          <h4 >{{ item.teacherName}}</h4>
+          <span class="name">学院：{{ item.institute }} </span>
           <div class="info">
-            <i class="el-icon-loading"></i
-            ><span>{{ item.examDate.substr(0, 10) }}</span>
-            <i class="iconfont icon-icon-time"></i
-            ><span v-if="item.totalTime != null"
-              >限时{{ item.totalTime }}分钟</span
-            >
-            <i class="iconfont icon-fenshu"></i
-            ><span>满分{{ item.totalScore }}分</span>
+          <p>性别：{{ item.sex }}<span>   电话：{{ item.tel }}</span></p> 
+          <p>Email{{ item.email }}<span>   职称：{{ item.type }}</span></p>
+          <p>已加入导师</p>
+          </div>
+          
+        </li>
+      </ul>
+    </div>
+
+
+    <div class="wrapper">
+      <ul class="top">
+      </ul>
+      <ul class="paper" v-loading="loading">
+        <li
+          class="item"
+          v-for="(item, index) in NotTeacherIsStudent"
+          :key="index"
+        >
+          <h4 >{{ item.teacherName}}    </h4>
+          <span class="name">学院：{{ item.institute }} </span>
+          <div class="info">
+          <p>性别：{{ item.sex }}<span>   电话：{{ item.tel }}</span></p> 
+          <p>Email{{ item.email }}<span>   职称：{{ item.type }}</span></p> 
+          <el-button @click="stuApplyTeacher(item.teacherId)" type="primary" size="small">加入导师</el-button>
           </div>
         </li>
       </ul>
-      <div class="pagination">
-        <el-pagination
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page="pagination.current"
-          :page-sizes="[6, 10, 20, 40]"
-          :page-size="pagination.size"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="pagination.total"
-        >
-        </el-pagination>
-      </div>
     </div>
+
+
   </div>
 </template>
 
@@ -59,48 +53,28 @@ export default {
   // name: 'myExam'
   data() {
     return {
-      IsExamOrPractice:false,
       loading: false,
-      key: null, //搜索关键字
-      allExam: null, //所有考试信息
       pagination: {
-        //分页后的考试信息
-        current: 1, //当前页
-        total: null, //记录条数
-        size: 6, //每页条数
+      },
+      NotTeacherIsStudent: {
       },
     };
   },
   created() {
-    this.getExamInfo();
+    this.getTeacherInfo();
+    this.getIsNotTeacherInfo();
     this.loading = true;
   },
   // watch: {
 
   // },
   methods: {
-    //获取当前所有考试信息
-    // getExamInfo() {
-    //   this.$axios(`/api/exams/${this.pagination.current}/${this.pagination.size}`).then(res => {
-    //     this.pagination = res.data.data
-    //     this.loading = false
-    //     console.log(this.pagination)
-    //   }).catch(error => {
-    //     console.log(error)
-    //   })
-    // },
-
-    getExamInfo() {
+    getTeacherInfo() {
       console.log("查詢操作-------");
       this.$axios({
         headers: { Authorization: this.$cookies.get("token") },  //设置的请求头
-        url: `/api/Examexam/findTimeLessThanTodayByStudentID`,
-        method: "post",
-        data: {
-          page: this.pagination.current, //當前頁
-          size: this.pagination.size, //頁數
-          StrdentID: this.$cookies.get("cid"), //用户ID
-        },
+        url: `/api/ExamTeacher/findTeacherByTeacherAndStudent/${this.$cookies.get("cid")}`,
+        method: "Get",
       })
         .then((res) => {
           this.pagination = res.data.data;
@@ -112,69 +86,49 @@ export default {
         });
     },
 
-    // //改变当前记录条数
-    // handleSizeChange(val) {
-    //   this.pagination.size = val
-    //   this.getExamInfo()
-    // },
-    // //改变当前页码，重新发送请求
-    // handleCurrentChange(val) {
-    //   this.pagination.current = val
-    //   this.getExamInfo()
-    // },
-
-    //改变当前记录条数
-    handleSizeChange(val) {
-      this.pagination.size = val;
-      if (this.key != "") {
-        this.search();
-      } else {
-        this.getExamInfo();
-      }
-    },
-
-    //改变当前页码，重新发送请求
-    handleCurrentChange(val) {
-      this.pagination.current = val;
-      if (this.key != "") {
-        this.search();
-      } else {
-        this.getExamInfo();
-      }
-    },
-
-    search() {
+      getIsNotTeacherInfo() {
       console.log("查詢操作-------");
       this.$axios({
         headers: { Authorization: this.$cookies.get("token") },  //设置的请求头
-        url: `/api/Examexam/findTimeLessThanTodayByStudentID`,
-        method: "post",
-        data: {
-          page: this.pagination.current, //當前頁
-          size: this.pagination.size, //頁數
-          StrdentID: this.$cookies.get("cid"), //用户ID
-          PaperName: this.key,
-        },
+        url: `/api/ExamTeacher/findTeacherNotIsStudentByTeacherAndStudent/${this.$cookies.get("cid")}`,
+        method: "Get",
       })
         .then((res) => {
-          this.pagination = res.data.data;
+          this.NotTeacherIsStudent = res.data.data;
           this.loading = false;
-          console.log(this.pagination);
+          console.log(this.NotTeacherIsStudent);
         })
         .catch((error) => {
           console.log(error);
         });
     },
 
+    stuApplyTeacher(teacherId){
+      this.$axios({
+        headers: { Authorization: this.$cookies.get("token") },  //设置的请求头
+        url: `/api/ExamTeacher/stuApplyTeacher`,
+        method: "Post",
+        data:{
+          StudentID: this.$cookies.get("cid"),
+          teacherID: teacherId
+        }
+      })
+        .then((res) => {
+           console.log(res.data.data);
+                   this.$alert(
+            res.data.data,
+            "注意",
+            {
+              confirmButtonText: "确定",
+            }
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
 
-
-    //跳转到试卷详情页
-    toExamMsg(examCode) {
-     
-      this.$router.push({ path: "/examMsg", query: { examCode: examCode ,IsExamOrPractice: this.IsExamOrPractice} });
-      console.log(examCode);
-    },
-  },
+  }
 };
 </script>
 

@@ -21,7 +21,7 @@
       <ul class="bottom">
         <li>考试时间：{{examData.examDate}}</li>
         <li>来自 {{examData.institute}}</li>
-        <li class="btn">{{examData.type}}</li>
+        <!-- <li class="btn">{{examData.type}}</li> -->
         <li class="right"><el-button  v-if="IsExamOrPractice" @click="toExamAnswer(examData.examCode)">正式考试</el-button>
         <el-button  v-if="!IsExamOrPractice" @click="toAnswer(examData.examCode)">测试考试</el-button>
       </li>
@@ -30,7 +30,7 @@
         <li @click="dialogVisible = true"><a href="javascript:;"><i class="iconfont icon-info"></i>考生须知</a></li>
       </ul>
     </div>
-    <div class="content">
+    <!-- <div class="content">
       <el-collapse v-model="activeName" >
         <el-collapse-item class="header" name="0">
           <template slot="title" class="stitle" >
@@ -76,7 +76,7 @@
         </el-collapse-item>
         
       </el-collapse>
-    </div>
+    </div> -->
     <!--考生须知对话框-->
     <el-dialog
       title="考生须知"
@@ -154,7 +154,34 @@ export default {
     },
 
     toExamAnswer(id) {
-        this.$router.push({path:"/examAnswer",query:{examCode: id}})
+        //判断是否进行过考试
+                this.$axios(
+        {
+        headers: { Authorization: this.$cookies.get("token") },  //设置的请求头
+        url:  `/api/Examexam/findFinalExamReloadIsExistence/${this.$route.query.examCode}/${this.$cookies.get("cid")}`,
+        method: "Get",
+        }
+          // `/api/ExamPaper/paper/${paperId}`
+        ).then(res => {  //通过paperId获取试题题目信息
+            if(null == res.data.data){
+              //不存在则进行考试
+               this.$router.push({path:"/examAnswer",query:{examCode: id}})
+            }else{
+               this.createPopupTable();
+            }
+        })
+    },
+    createPopupTable(){
+          this.$alert(
+            "你已经参加过本场考试,请勿再次参加",
+            "考试注意",
+            {
+              confirmButtonText: "确定",
+              callback: (action) => {
+               this.$router.push({path:"/student"})
+              },
+            }
+          );
     },
     computed: mapState(["isPractice"]),
   }

@@ -4,8 +4,6 @@
     <p class="title">我的分数</p>
     <section class="content-el">
       <el-table ref="filterTable" :data="score" v-loading="loading">
-
-
         <el-table-column
           prop="answerDate"
           label="考试日期"
@@ -15,21 +13,7 @@
           :filters="filter"
           :filter-method="filterHandler">
         </el-table-column>
-
-
-        <!-- <el-table-column
-          prop="subject"
-          label="课程名称"
-          sortable
-          width="300"
-          column-key="subject"
-          :filters="subjectfilter"
-          :filter-method="filterHandler"
-          >
-
-        </el-table-column> -->
-
-
+        
         <el-table-column
           prop="subject"
           label="课程名称"
@@ -43,10 +27,8 @@
             <el-tag>{{scope.row.subject}}</el-tag>
           </template>
         </el-table-column>
-
-
-        
-        <el-table-column prop="etScore" label="考试分数" width="200"></el-table-column>
+        <el-table-column prop="etScore" label="测试成绩" width="200"></el-table-column>
+        <el-table-column prop="score" label="期末成绩" width="200"></el-table-column>
         <el-table-column label="是否及格" width="100">
           <template slot-scope="scope">
             <el-tag :type="scope.row.etScore>= 60 ? 'success' : 'danger'">{{scope.row.etScore >= 60 ? "及格" : "不及格"}}</el-tag>
@@ -96,7 +78,6 @@ export default {
         url: `/api/ExamScore/score/${this.pagination.current}/${this.pagination.size}/${studentId}`,
         method: "Get",
         }
-        // `/api/score/${this.pagination.current}/${this.pagination.size}/${studentId}`
         ).then(res => {
         if(res.data.code == 200) {
           this.loading = false //数据加载完成去掉遮罩

@@ -659,6 +659,7 @@ export default {
                 studentId: this.userInfo.id, //学号
                 subject: this.examData.source, //课程名称
                 answerDate: answerDate, //答题日期  
+                finalExam: false
               },
             })
               .then((res) => {

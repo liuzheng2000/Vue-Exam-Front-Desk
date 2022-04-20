@@ -100,7 +100,7 @@ export default {
         data: {
           page: this.pagination.current, //當前頁
           size: this.pagination.size, //頁數
-          StrdentID: 20154084, //用户ID
+          StrdentID: this.$cookies.get("cid"), //用户ID
         },
       })
         .then((res) => {
@@ -144,7 +144,7 @@ export default {
         data: {
           page: this.pagination.current, //當前頁
           size: this.pagination.size, //頁數
-          StrdentID: 20154084, //用户ID
+          StrdentID: this.$cookies.get("cid"), //用户ID
           PaperName: this.key,
         },
       })
@@ -158,18 +158,7 @@ export default {
         });
     },
 
-    // //搜索试卷
-    // search() {
-    //   this.$axios('/api/exams').then(res => {
-    //     if(res.data.code == 200) {
-    //       let allExam = res.data.data
-    //       let newPage = allExam.filter(item => {
-    //         return item.source.includes(this.key)
-    //       })
-    //       this.pagination.records = newPage
-    //     }
-    //   })
-    // },
+ 
 
     //跳转到试卷详情页
     toExamMsg(examCode) {
