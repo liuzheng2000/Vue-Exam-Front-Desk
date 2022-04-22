@@ -414,13 +414,7 @@ export default {
     // 进入全屏
     fullele() {
       // 如果不允许进入全屏，发出不允许提示
-      if (
-        window.location.href.includes(
-          "http://localhost:8088/#/examAnswer?examCode="
-        )
-      ) {
         screenfull.request();
-      }
       // this.isFullScreen();
     },
 

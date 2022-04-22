@@ -6,27 +6,28 @@ const path = require('path')
 
 module.exports = {
     dev: {
-
         // Paths
         assetsSubDirectory: 'static',
         assetsPublicPath: '/',
-        proxyTable: {
-            '/api': {
-                target: 'http://localhost:8080', //本地地址
-                // target: 'http://gopikachu.top:8080',// 线上部署地址
-                changeOrigin: true,
-                pathRewrite: {
-                    '^/api': '' //这里理解成用‘/api’代替target里面的地址，后面组件中我们掉接口时直接用api代替 比如我要调用'http://40.00.100.100:3002/user/add'，直接写‘/api/user/add’即可
-                }
-            },
-            '/examApi': {
-                target: 'http://localhost:9064', //本地地址
-                changeOrigin: true,
-                pathRewrite: {
-                    '^/examApi': ''
-                }
-            }
-        },
+        // proxyTable: {
+        //     '/api': {
+        //         target: 'http://localhost:8080', //本地地址
+        //         // target: 'https://examvue.qingyun.run:8080', //本地地址
+        //         // target: 'http://gopikachu.top:8080',// 线上部署地址
+        //         changeOrigin: true,
+        //         pathRewrite: {
+        //             '^/api': '' //这里理解成用‘/api’代替target里面的地址，后面组件中我们掉接口时直接用api代替 比如我要调用'http://40.00.100.100:3002/user/add'，直接写‘/api/user/add’即可
+        //         }
+        //     },
+        //     '/examApi': {
+        //         target: 'http://localhost:9064', //本地地址
+        //         // target: 'https://examvue.qingyun.run:9064', //本地地址
+        //         changeOrigin: true,
+        //         pathRewrite: {
+        //             '^/examApi': ''
+        //         }
+        //     }
+        // },
 
         // Various Dev Server settings
         host: 'localhost', // can be overwritten by process.env.HOST
@@ -59,7 +60,27 @@ module.exports = {
         // Paths
         assetsRoot: path.resolve(__dirname, '../dist'),
         assetsSubDirectory: 'static',
-        assetsPublicPath: '/',
+        assetsPublicPath: './',
+
+        // proxyTable: {
+        //     '/api': {
+        //         // target: 'http://localhost:8080', //本地地址
+        //         target: 'https://examvue.qingyun.run:8080', //本地地址
+        //         // target: 'http://gopikachu.top:8080',// 线上部署地址
+        //         changeOrigin: true,
+        //         pathRewrite: {
+        //             '^/api': '' //这里理解成用‘/api’代替target里面的地址，后面组件中我们掉接口时直接用api代替 比如我要调用'http://40.00.100.100:3002/user/add'，直接写‘/api/user/add’即可
+        //         }
+        //     },
+        //     '/examApi': {
+        //         // target: 'http://localhost:9064', //本地地址
+        //         target: 'https://examvue.qingyun.run:9064', //本地地址
+        //         changeOrigin: true,
+        //         pathRewrite: {
+        //             '^/examApi': ''
+        //         }
+        //     }
+        // },
 
         /**
          * Source Maps
@@ -82,4 +103,5 @@ module.exports = {
         // Set to `true` or `false` to always turn it on or off
         bundleAnalyzerReport: process.env.npm_config_report
     }
+
 }

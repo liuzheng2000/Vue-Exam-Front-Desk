@@ -1,5 +1,4 @@
-<!-- 页面修改完成 -->
-<!-- 用户登录界面 -->
+
 <template>
   <div id="login">
     <div class="bg"></div>
@@ -51,20 +50,9 @@
                   >注册</el-button
                 >
 
-                <!-- <el-button
-                  type="primary"
-                  class="row-login"
-                  @click="photograph()"
-                  >拍照</el-button
-                > -->
+      
               </div>
-              <!-- <div class="options">
-                <p class="find"><a href="javascript:;">找回密码</a></p>
-                <div class="register">
-                  <span>没有账号?</span>
-                  <span><a href="javascript:;">去注册</a></span>
-                </div>
-              </div> -->
+            
             </el-form>
           </div>
         </div>
@@ -99,10 +87,7 @@ export default {
       role: 2,
       labelPosition: "left",
       options: [
-        // {
-        //   value: '0',
-        //   label: '管理員'
-        // },
+      
         {
           value: "1",
           label: "教師",
@@ -147,13 +132,7 @@ export default {
         let resData = res.data.data;
         if (resData != null) {
           switch (resData.role) {
-            // case "0": //管理员
-            //   this.$cookies.set("cname", resData.adminName);
-            //   this.$cookies.set("cid", resData.adminId);
-            //   this.$cookies.set("role", 0);
-            //   this.$cookies.set("token",resData.token);
-            //   this.$router.push({ path: "/index" }); //跳转到首页
-            //   break;
+           
             case "1": //教师
               this.$cookies.set("cname", resData.teacherName);
               this.$cookies.set("cid", resData.teacherId);
